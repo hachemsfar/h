@@ -12,7 +12,11 @@ MODEL_PATH = "diabetes_rf_model.pkl"
 
 def load_model():
     if os.path.exists(MODEL_PATH):
-        return joblib.load(MODEL_PATH)
+        try:
+            return joblib.load(MODEL_PATH)
+        except ValueError:
+            st.error("Model file is incompatible. Try retraining and saving the model with the same scikit-learn version.")
+            return None
     else:
         st.error("Model file not found. Please check the file path.")
         return None
